@@ -7,7 +7,7 @@ const processaDominios = dominio => ({
 })
 
 roteador.get('/dominios', async (req, res, next) => {
-    try{
+    try {
         const dominio = new Dominio()
         const classes = await dominio.classe().then(resultado => resultado.map(processaDominios))
         const racas = await dominio.raca().then(resultado => resultado.map(processaDominios))
@@ -16,13 +16,13 @@ roteador.get('/dominios', async (req, res, next) => {
             classes,
             racas,
             generos
-        })     
+        })
     } catch (erro) {
         console.log(erro)
         next(erro)
-        
+
     }
-    
+
 })
 
 
