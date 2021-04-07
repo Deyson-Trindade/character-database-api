@@ -33,12 +33,11 @@ function FormularioCadastro({ onSubmit }) {
     const [gender, setGender] = useState('')
     const [classe, setClasse] = useState('')
     const [nome, setNome] = useState('')
-    const [sobreNome, setSobreNome] = useState('')
-
+  
     return (
         <form onSubmit={e => {
             e.preventDefault()
-            onSubmit({ nome, sobreNome, race, classe, gender })
+            onSubmit({ nome, race, classe, gender })
 
         }}>
             <TextField
@@ -46,15 +45,6 @@ function FormularioCadastro({ onSubmit }) {
                 onChange={e => setNome(e.target.value)}
                 id="nome"
                 label="Nome"
-                size="small"
-                margin="normal"
-                fullWidth />
-            <br />
-            <TextField
-                value={sobreNome}
-                onChange={e => setSobreNome(e.target.value)}
-                id="sobrenome"
-                label="Sobrenome"
                 size="small"
                 margin="normal"
                 fullWidth />

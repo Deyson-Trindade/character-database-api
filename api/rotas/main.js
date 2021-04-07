@@ -1,57 +1,28 @@
 const roteador = require('express').Router()
+const Dominio = require('../modelos/dominio')
 
-const racas = [
-    {
-        chave: 1,
-        descricao: 'Humano'
-    },
-    {
-        chave: 2,
-        descricao: 'Elfo'
-    },
-    {
-        chave: 3,
-        descricao: 'Anão'
+const processaDominios = dominio => ({
+    chave: dominio.ID,
+    descricao: dominio.Nome
+})
+
+roteador.get('/dominios', async (req, res, next) => {
+    try{
+        const dominio = new Dominio()
+        const classes = await dominio.classe().then(resultado => resultado.map(processaDominios))
+        const racas = await dominio.raca().then(resultado => resultado.map(processaDominios))
+        const generos = await dominio.genero().then(resultado => resultado.map(processaDominios))
+        res.send({
+            classes,
+            racas,
+            generos
+        })     
+    } catch (erro) {
+        console.log(erro)
+        next(erro)
+        
     }
-]
-
-const classes = [
-    {
-        chave: 4,
-        descricao: 'Guerreiro'
-    },
-    {
-        chave: 5,
-        descricao: 'Mago'
-    },
-    {
-        chave: 6,
-        descricao: 'Clérigo'
-    }
-]
-
-const generos = [
-    {
-        chave: 7,
-        descricao: 'Agenere'
-    },
-    {
-        chave: 8,
-        descricao: 'Masculino'
-    },
-    {
-        chave: 9,
-        descricao: 'Feminino'
-    }
-]
-
-const dominios = {
-    racas,
-    classes,
-    generos
-}
-roteador.get('/dominios', (req, res) => {
-    res.send(dominios)
+    
 })
 
 
