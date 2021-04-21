@@ -1,5 +1,10 @@
 const roteador = require('express').Router()
 const Dominio = require('../modelos/dominio')
+const Personagem = require('../modelos/personagem')
+
+const dataBaseConection = require('../banco-de-dados/conexao')
+
+
 
 const processaDominios = dominio => ({
     chave: dominio.ID,
@@ -21,28 +26,27 @@ roteador.get('/dominios', async (req, res, next) => {
         console.log(erro)
         next(erro)
 
-    }
-
+    }    
 })
 
+ roteador.post('/dominios/data', async (req, res, next) => {
+    try{
+        const personagem = new Personagem()
+        const { nome, race, gender } = req.body
+        personagem.insere({
+            nome,
+            race,
+            gender
 
+        })
+        res.send({message: 'Deu tudo certo!'})
 
+    } catch (erro) {
+        next(erro)    
 
-
-
-/*
-roteador.get('/dominio/:nomeDominio', (req, res) => {
-
-    const nomeDominio = req.params.nomeDominio
-
-    const dominio = dominios[nomeDominio]
-    if(!dominio) {
-        res.status(404).send('Domínio não encontrado')
-        return
     }
-        res.send(dominio)
+    
+})
 
-
-}) */
 
 module.exports = roteador
