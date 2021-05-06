@@ -2,7 +2,7 @@ const roteador = require('express').Router()
 const Dominio = require('../modelos/dominio')
 const Personagem = require('../modelos/personagem')
 
-const dataBaseConection = require('../banco-de-dados/conexao')
+
 
 
 
@@ -29,15 +29,20 @@ roteador.get('/dominios', async (req, res, next) => {
     }    
 })
 
- roteador.post('/dominios/data', async (req, res, next) => {
+roteador.get('/dominios/read', async (req, res) => {
+    const p = new Personagem()
+    p.select().then(e => res.send(e))
+})
+
+ roteador.post('/dominios', async (req, res, next) => {
     try{
         const personagem = new Personagem()
-        const { nome, race, gender } = req.body
-        personagem.insere({
+        const { nome, race, gender, classe } = req.body
+        personagem.insert({
             nome,
             race,
-            gender
-
+            gender,
+            classe
         })
         res.send({message: 'Deu tudo certo!'})
 

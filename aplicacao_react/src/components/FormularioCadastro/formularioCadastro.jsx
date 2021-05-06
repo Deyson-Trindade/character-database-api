@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function FormularioCadastro({ onSubmit }) {
+function FormularioCadastro() {
 
     const [generos, setGeneros] = useState([])
     const [racas, setRacas] = useState([])
@@ -28,19 +28,46 @@ function FormularioCadastro({ onSubmit }) {
 
     }, [])
 
-    const useStyle = useStyles()
-    const [race, setRace] = useState('')
-    const [gender, setGender] = useState('')
-    const [classe, setClasse] = useState('')
-    const [nome, setNome] = useState('')
   
+
+const useStyle = useStyles()
+const [race, setRace] = useState('')
+const [gender, setGender] = useState('')
+const [classe, setClasse] = useState('')
+const [nome, setNome] = useState('')
+
+function postData(){
+    
+    try{
+        fetch('http://localhost:3003/dominios', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nome: nome,
+                race: race,
+                gender: gender,
+                classe: classe
+            }
+            )}).then( res => res.status(200).json()).then( res => console.log(res))
+        } catch (erro){
+            console.log(erro)
+            
+        }
+    }
+    
+    
+    
     return (
         <form onSubmit={e => {
             e.preventDefault()
-            onSubmit({ nome, race, classe, gender })
-
+            postData()
+            
         }}>
             <TextField
+                autoComplete="off"
                 value={nome}
                 onChange={e => setNome(e.target.value)}
                 id="nome"
