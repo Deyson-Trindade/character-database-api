@@ -1,8 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import FormularioCadastro from './components/FormularioCadastro/formularioCadastro';
 import Login from './components/FormularioCadastro/login'
 import Lista from './components/FormularioCadastro/lista'
+import Home from './components/home'
 
 import { Container } from '@material-ui/core'
 
@@ -11,20 +13,6 @@ function App() {
     <>
       <Container>
         <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/lista">lista de personagem</Link>
-                </li>
-                <li>
-                  <Link to="/cadastrarPersonagem">Cadastre seu personagem</Link>
-                </li>
-                <li>
-                  <Link to="/login">login</Link>
-                </li>
-              </ul>
-            </nav>
             <Switch>
               <Route path="/lista" exact>
                 <Lista />
@@ -35,8 +23,10 @@ function App() {
               <Route path="/login" exact>
                 <Login />
               </Route>
+              <Route path="/" exact>
+                <Home />
+              </Route>
             </Switch>
-          </div>
         </Router>
       </Container>
     </>
