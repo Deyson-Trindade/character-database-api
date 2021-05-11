@@ -2,9 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import FormularioCadastro from './components/FormularioCadastro/formularioCadastro';
-import Login from './components/FormularioCadastro/login'
+import CadastrarUsuario from './components/FormularioCadastro/cadastrarUsuario'
 import Lista from './components/FormularioCadastro/lista'
-import Home from './components/home'
+import NavBar from './components/NavBar'
+//import Home from '..components/Home'
 
 import { Container } from '@material-ui/core'
 
@@ -13,20 +14,20 @@ function App() {
     <>
       <Container>
         <Router>
-            <Switch>
-              <Route path="/lista" exact>
-                <Lista />
-              </Route>
-              <Route path="/cadastrarPersonagem" exact>
-                <FormularioCadastro />
-              </Route>
-              <Route path="/login" exact>
-                <Login />
-              </Route>
-              <Route path="/" exact>
-                <Home />
-              </Route>
-            </Switch>
+          <Route path="/">
+            <NavBar />
+          </Route>
+          <Switch>
+            <Route path="/lista" exact>
+              <Lista />
+            </Route>
+            <Route path="/cadastrarPersonagem" exact>
+              <FormularioCadastro />
+            </Route>
+            <Route path="/cadastrarUsuario" exact>
+              <CadastrarUsuario />
+            </Route>
+          </Switch>
         </Router>
       </Container>
     </>

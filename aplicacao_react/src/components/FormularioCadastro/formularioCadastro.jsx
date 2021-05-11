@@ -46,10 +46,10 @@ function FormularioCadastro() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    nome: nome,
-                    race: race,
-                    gender: gender,
-                    classe: classe
+                    nome,
+                    race,
+                    gender,
+                    classe
                 }
                 )
             }).then(res => res.json()).then(res => console.log(res))
