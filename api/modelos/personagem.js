@@ -1,24 +1,23 @@
 const dataBaseConection = require('../banco-de-dados/conexao')
 
 module.exports = class Personagem {
-    insert(personagem) {
-        dataBaseConection.query({
-            sql: 'INSERT INTO personagem (Nome, racaID, generoID, classeID) values(?, ?, ?, ? )',
-            timeout: 40000, // 40s
-            values: Object.values(personagem)
+    insertPersonagem(personagem) {
+        return new Promise((resolve, reject) => {
+            dataBaseConection.query({
+                sql: 'INSERT INTO personagem (Nome, racaID, generoID, classeID) values(?, ?, ?, ? )',
+                timeout: 40000, // 40s
+                values: Object.values(personagem),
+                callback: (erro, resultado) => {
+                    if (erro) reject(erro)
+                    resolve()
+                }
+            })
+
         })
 
     }
-    /* select(erro) {
-        if (erro) throw erro
-        dataBaseConection.query('SELECT * FROM personagem', function (erro, resultado) {
-            if (erro) throw erro
-            console.log(resultado)
-        })
-        
-    } */
 
-    select() {
+    selecionaPersonagens() {
         return new Promise((resolve, reject) => {
             dataBaseConection.query(
                 `SELECT p.Nome as nome, c.Nome as classe, g.Nome as genero, r.Nome as raca 
@@ -33,6 +32,27 @@ module.exports = class Personagem {
         })
     }
 
+   /* put() {
+        return new Promise((resolve, reject) => {
+            dataBaseConection.query(
+              `UPDATE set (Nome, classeID,  = ? `  
+            )
+        })
+    } */
+
+    delete(parametros) {
+        return new Promise((resolve, reject) => {
+            dataBaseConection.query({
+                sql:`DELETE from personagem WHERE ID=?`,
+                timeout:4000,
+                values: Object.values(parametros),
+                callback: (erro, resultado) => {
+                    if (erro) reject(erro)
+                    resolve(resultado)
+                }
+            })
+        })
+    }
+
 
 }
-
