@@ -20,7 +20,7 @@ module.exports = class Personagem {
     selecionaPersonagens() {
         return new Promise((resolve, reject) => {
             dataBaseConection.query(
-                `SELECT p.Nome as nome, c.Nome as classe, g.Nome as genero, r.Nome as raca 
+                `SELECT p.ID as ID, p.Nome as nome, c.Nome as classe, g.Nome as genero, r.Nome as raca 
                 from personagem p
                 join classe c on p.classeID = c.ID 
                 join genero g on p.generoID = g.ID 
@@ -32,24 +32,24 @@ module.exports = class Personagem {
         })
     }
 
-   /* put() {
+    update() {
         return new Promise((resolve, reject) => {
             dataBaseConection.query(
-              `UPDATE set (Nome, classeID,  = ? `  
+              `UPDATE personagem SET Nome = ? and classeID = ? and  `  
             )
         })
-    } */
+    }
 
     delete(parametros) {
         return new Promise((resolve, reject) => {
+            console.log('dps do await')
             dataBaseConection.query({
-                sql:`DELETE from personagem WHERE ID=?`,
-                timeout:4000,
-                values: Object.values(parametros),
-                callback: (erro, resultado) => {
-                    if (erro) reject(erro)
-                    resolve(resultado)
-                }
+                sql:'DELETE from personagem WHERE ID=?;',
+                values: Number(parametros),
+            },  (erro, resultado) => {
+                console.log(resultado, erro)
+                if (erro) reject(erro)
+                resolve(resultado)
             })
         })
     }

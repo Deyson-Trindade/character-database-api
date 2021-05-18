@@ -52,10 +52,11 @@ roteador.post('/dominios', (req, res, next) => {
 
 })
 
-roteador.delete('dominios/personagem/:ID', async (req, res, next) => {
-    parametros = req.params
-    personagem.delete(parametros).then(res => console.log(res))
-
+roteador.delete('/dominios/personagem/:id', (req, res, next) => {
+    //console.log(req.params)
+    const parametros = req.params.id
+    personagem.delete(parametros).then( () => res.send({message: 'res.send aqui'})).catch(erro => next(erro))
+    //res.send({message: 'res.send aqui'})
 })
 
 //roteador.put('dominios/personagem')

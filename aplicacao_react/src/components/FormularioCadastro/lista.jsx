@@ -1,8 +1,9 @@
 import { Container, Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 
-const Lista = () => {
 
+
+const Lista = () => {
     const [personagens, setPersonagem] = useState([])
 
     useEffect(() => {
@@ -11,33 +12,36 @@ const Lista = () => {
         })
             .then(res => res.json())
             .then(data => setPersonagem(data))
-    })
+    }, [JSON.stringify(personagens)])
 
 
-    useEffect(() => {
-        const deletar = () => {
-            fetch('http://localhost:3003/personagem', {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            })
-                .then(res => res.text())
-                .then(res => console.log(res))
 
-        }
-    })
+    const deletar = (id) => {
+        fetch(`http://localhost:3003/dominios/personagem/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then( () => setPersonagem(personagens.filter(e => e.ID !== id)))
+
+    }
+
+    /*const atualizar = () => {
+        fetch(`http://localhost:3003/dominios/personagem/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            }
+        })
+    }*/
 
 
-    /*  useEffect(() => {
-          fetch('http://localhost:3003/dominios/read', {
-              method: 'DELETE'
-          })
-      })
-      .then(req => req.json())
-      .then(data => setPersonagem(data))
-      */
+    
+
 
     return (
         <>
@@ -45,12 +49,12 @@ const Lista = () => {
                 {personagens.map((personagem) => <div key=
                     {personagem.nome}>
                     {personagem.nome} -
-            {personagem.raca} -
-            {personagem.genero} -
-            {personagem.classe}
+                    {personagem.raca} -
+                    {personagem.genero} -
+                    {personagem.classe}
                     <Container maxWidth="sm">
                         <Button type="submit" variant="contained" color="primary" size="medium">Alterar</Button>
-                        <Button type="submit" variant="contained" color="primary" size="medium" onClick={deletar}>Deletar</Button>
+                        <Button type="submit" variant="contained" color="primary" size="medium" onClick={() => deletar(personagem.ID)}>Deletar</Button>
                     </Container>
                 </div>)}
             </Container>
