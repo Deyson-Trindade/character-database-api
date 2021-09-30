@@ -30,8 +30,13 @@ roteador.get('/dominios', async (req, res, next) => {
     }
 })
 
-roteador.get('/dominios/personagem', async (req, res) => {
-    personagem.selecionaPersonagens().then(e => res.send(e))
+roteador.get('/dominios/personagem', (req, res) => {
+    personagem.listAll().then(e => res.send(e))
+})
+
+roteador.get('/personagem/:id', (req, res) => {
+     
+    personagem.get(req.params.id).then(data => res.send(data.shift()))
 })
 
 roteador.post('/dominios', (req, res, next) => {
@@ -53,13 +58,18 @@ roteador.post('/dominios', (req, res, next) => {
 })
 
 roteador.delete('/dominios/personagem/:id', (req, res, next) => {
-    //console.log(req.params)
     const parametros = req.params.id
     personagem.delete(parametros).then( () => res.send({message: 'res.send aqui'})).catch(erro => next(erro))
     //res.send({message: 'res.send aqui'})
 })
 
-//roteador.put('dominios/personagem')
+roteador.put('/personagem/:id', (req, res) => {
+    const { id } = req.params
+    const { nome, generoID, classeID, racaID } = req.body
+    console.log(id, nome, generoID, classeID, racaID)
+
+    personagem.update({ nome, classe: Number(classeID), raca: Number(racaID), generoID, id: Number(id) }).then( () => res.send({ message: 'dados alterados com sucesso.' }))
+})
 
 roteador.post('/usuario', async (req, res, next) => {
     try {
